@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Chinese Boost</title>
+        <link>
+            https://www.chineseboost.com/
+        </link>
+        <description>Recent content on Chinese Boost</description>
+        <lastBuildDate>Sat, 05 Mar 2016 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://www.chineseboost.com/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+            <title>Refer to other memories</title>
+            <link>
+                https://www.chineseboost.com/blog/refer-to-other-memories/
+            </link>
+            <pubDate>Sat, 05 Mar 2016 00:00:00 +0000</pubDate>
+            <author>hugh.grigg@gmail.com (Hugh Grigg)</author>
+            <guid>https://www.chineseboost.com/blog/refer-to-other-memories/</guid>
+            <description>
+&lt;p&gt;Knowledge doesn&amp;rsquo;t exist in isolation, and this is especially
+true for language learning. To get good at Chinese, it&amp;rsquo;s important to
+build 语感: a natural sense for the language.&lt;/p&gt;
+            </description>
+        </item>
+        <item>
+            <title>5 ways to optimise your Chinese flashcards</title>
+            <link>
+                https://www.chineseboost.com/blog/optimise-chinese-flashcards/
+            </link>
+            <pubDate>Tue, 23 Feb 2016 00:00:00 +0000</pubDate>
+            <author>hugh.grigg@gmail.com (Hugh Grigg)</author>
+            <guid>
+            https://www.chineseboost.com/blog/optimise-chinese-flashcards/
+            </guid>
+            <description>
+&lt;p&gt;What makes an optimal Chinese flashcard?&lt;/p&gt; &lt;p&gt;Rule #12 in
+Dr Wozniak&amp;rsquo;s &lt;a
+href=&#34;https://www.supermemo.com/en/articles/20rules&#34;&gt;20 Rules for
+Formulating Knowledge&lt;/a&gt; is &amp;ldquo;optimize wording&amp;rdquo;. This
+concerns making flashcards for general knowledge acquisition.
+            </description>
+        </item>
+    </channel>
+</rss>
