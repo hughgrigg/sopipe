@@ -27,3 +27,5 @@ _testmain.go
 *.sublime-workspace
 
 config.*
+
+*.sublime-projec
