@@ -1,64 +1,69 @@
 package fetch
 
 import (
-	"encoding/xml"
+	"fmt"
 	"io"
+	"net/http"
 	"net/url"
-	"strings"
-	"time"
+	"os"
 )
 
-type RSSFeed struct {
-	XMLName xml.Name   `xml:"rss"`
-	Channel RSSChannel `xml:"channel"`
-}
-
-type RSSChannel struct {
-	XMLName xml.Name  `xml:"channel"`
-	Title   string    `xml:"title"`
-	Items   []RSSItem `xml:"item"`
-}
-
-type RSSItem struct {
-	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`
-	Link        URL      `xml:"link"`
-	PubDate     RSSDate  `xml:"pubDate"`
-	Description string   `xml:"description"`
-}
-
-type URL struct {
-	url.URL
-}
-
-func (u *URL) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	var v string
-	d.DecodeElement(&v, &start)
-	parsed, err := url.Parse(strings.TrimSpace(v))
+func PostsFromLocation(location string) ([]Post, error) {
+	var posts []Post
+	r, err := locationToReader(location)
+	defer r.Close()
 	if err != nil {
-		return err
+		return posts, err
 	}
-	*u = URL{*parsed}
-	return nil
-}
 
-type RSSDate struct {
-	time.Time
-}
-
-func (rd *RSSDate) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	var v string
-	d.DecodeElement(&v, &start)
-	parsed, err := time.Parse(time.RFC1123Z, v)
-	if err != nil {
-		return err
+	for _, sourcePoster := range sourcePosters {
+		posts, err = sourcePoster(r)
+		if err == nil {
+			return posts, nil
+		}
 	}
-	*rd = RSSDate{parsed}
-	return nil
+
+	return posts, fmt.Errorf("Failed to get posts from location `%s`", location)
 }
 
-func ParseRSS(r io.Reader) (RSSFeed, error) {
-	var rssFeed RSSFeed
-	err := xml.NewDecoder(r).Decode(&rssFeed)
-	return rssFeed, err
+func PostToTabbed(p Post) string {
+	return fmt.Sprintf("%s\t%s", p.Body, p.Links[0].String())
+}
+
+type Post struct {
+	Body     string
+	Links    []url.URL
+	Mentions []Mention
+	HashTags []HashTag
+}
+
+type Image struct {
+	src url.URL
+}
+
+type HashTag struct {
+	string
+}
+
+type Mention struct {
+	string
+}
+
+var sourcePosters []sourcePoster = []sourcePoster{
+	RSSToPosts,
+}
+
+type sourcePoster func(r io.Reader) ([]Post, error)
+
+type postFormatter func(p Post) string
+
+func locationToReader(location string) (io.ReadCloser, error) {
+	if parseUrl, err := url.Parse(location); err == nil && parseUrl.IsAbs() {
+		get, err := http.Get(parseUrl.String())
+		return get.Body, err
+	}
+	if openFile, err := os.Open(location); err == nil {
+		return openFile, nil
+	}
+	return nil, fmt.Errorf("Failed to open location %s", location)
 }
